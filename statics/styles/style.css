@@ -1,0 +1,36 @@
+html, body {
+    margin: 0;
+    background-color: rgb(19, 33, 44);
+}
+
+#octolamp {
+    width: 846px;
+    height: 408px;
+}
+
+.box{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.opcion {
+    font-family: 'ipixelu';
+    font-size: 70px;
+    color: #b2dfdb;
+}
+
+.opcion:hover {
+    color: #33691e;
+    cursor: pointer;
+}
+
+/*=FUENTES
+------------------------------------------------------------------------------------------*/
+@font-face {
+    font-family: 'ipixelu';
+    src: url(/statics/fonts/I-pixel-u.ttf);
+}
