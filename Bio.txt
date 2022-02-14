@@ -1,0 +1,243 @@
+/////RESPUESTAS CORRECTAS: a)
+
+
+1.	¿En qué nivel de organización confluyen la materia viva y la no viva?
+a)	Ecosistema
+b)	Biosfera
+c)	Célula
+d)	Átomo
+
+2.	La atmósfera de la Tierra primitiva por la ausencia de oxígeno se dice que tiene un carácter de tipo:
+a)	Reductor
+b)	Ácido
+c)	Básico
+d)	Oxidante
+
+3.	Los elementos que se encuentran en la materia viva se llaman:
+a)	Bioelementos
+b)	Biomoléculas
+c)	Biovariables
+d)	Biogases
+
+4.	Los elementos químicos se encuentran de manera natural formando:
+a)	Compuestos
+b)	Mezclas
+c)	Ligas
+d)	Isómeros
+
+5.	Es la sustancia química más abundante en la materia viva:
+a)	Agua
+b)	Bióxido de carbono
+c)	Monóxido de Carbono
+d)	Metano
+
+6.	 Se refiere a la parte de la Tierra habitada por seres vivos, incluye a los componentes tanto
+vivos como ambientales:
+a)	biósfera
+b)	bioma
+c)	población
+d)	ecosistema
+
+7.	¿Quién demostró lo erróneo de la teoría de la generación espontánea?
+a)	L. Pasteur
+b)	J. Lamarck
+c)	L. Spallanzani
+d)	Redi
+
+8.	El carbohidrato que constituye una reserva de energía en las plantas se denomina:
+a)	Almidón
+b)	Glucógeno
+c)	Colágeno
+d)	Celulosa
+
+9.	Polisacárido que constituye el exoesqueleto de los artrópodos:
+a)	Quitina
+b)	Almidón
+c)	Colágeno
+d)	Glucógeno
+
+10.	Son lípidos que están formados por tres moléculas de ácidos grasos y uno de glicerina:
+a)	Triglicéridos
+b)	Fosfolípidos
+c)	Prostaglandinas
+d)	Terpenos
+
+11.	Son lípidos que forman parte de las membranas celulares
+a)	Fosfolípidos
+b)	Esteroides
+c)	Triglicéridos
+d)	Esfingolípidos
+
+12.	Las biomoléculas que intervienen en el crecimiento y mantenimiento de las estructuras en los seres vivos se llaman:
+a)	Proteínas
+b)	Carbohidratos
+c)	Lípidos
+d)	Vitaminas
+
+13.	Las proteínas con actividad biocatalítica que favorecen las reacciones químicas son:
+a)	Las enzimas
+b)	Las hormonas
+c)	Las vitaminas
+d)	Los aminoácidos
+
+14.	La _______ transporta el oxígeno en la sangre.
+a)	Hemoglobina
+b)	Insulina
+c)	Pepsina
+d)	Tiroxina
+
+15.	La función del ARN es:
+a)	Participar en la síntesis de las proteínas
+b)	Desdoblamiento de carbohidratos
+c)	Participar en la síntesis de lípidos
+d)	Desdoblamiento de carbohidratos
+
+16.	Base ausente en el ADN:
+a)	Uracilo
+b)	Citosina
+c)	Timina
+d)	Adenina
+
+17.	¿Cuál fue el primer investigador en utilizar el nombre de “célula”?
+a)	Hooke
+b)	Brown
+c)	Schleiden
+d)	Virchow
+
+18.	Se les atribuye la teoría celular:
+a)	Schleiden y Schwann
+b)	Mendel y Darwin
+c)	Hooke y Brown
+d)	Sutton y Morgan
+
+19.	Organelos en cuyo interior se efectúa la respiración:
+a)	Mitocondrias
+b)	Lisosomas
+c)	Ribosomas
+d)	Vacuolas
+
+20.	Estructura que mantiene la forma y da rigidez a la célula vegetal:
+a)	Pared celular
+b)	Membrana celular
+c)	Lisosoma 
+d)	Mitocondria
+
+21.	Estructura que presenta permeabilidad selectiva para el intercambio de sustancias del exterior y viceversa:
+a)	Membrana Celular
+b)	Cloroplasto
+c)	Pared Celular 
+d)	Lisosoma
+
+22.	Las cromátidas hermanas se dirigen a polos opuestos siendo jaladas por la fibra del huso mitótico durante la:
+a)	Anafase
+b)	Profase
+c)	Metafase
+d)	Interfase
+
+23.	Los gametos se originan por la división celular denominada:
+a)	Meiosis
+b)	Citocinesis
+c)	Mitosis
+d)	Amitosis
+
+24.	La meiosis origina células:
+a)	Haploides
+b)	Diploides
+c)	Somáticas
+d)	Epiteliales
+
+25.	Tejido que proporciona resistencia a las plantas:
+a)	Esclerénquima
+b)	Adiposo
+c)	Parénquima
+d)	Xilema
+
+26.	Tejido formado por las células denominadas neuronas:
+a)	Nervioso 
+b)	Sanguíneo
+c)	Epitelial
+d)	Adiposo
+
+27.	La respiración que realizan los anélidos a través de la piel se llama:
+a)	Cutánea
+b)	Branquial
+c)	Traqeal
+d)	Alveolar
+
+28.	El oxígeno penetra los tejidos de las plantas por estructuras llamadas:
+a)	Estomas
+b)	Raíces
+c)	Hojas
+d)	Flores
+
+29.	Las células que se encargan de transportar oxígeno a los tejidos y recoger dióxido de carbono se denominan:
+a)	Glóbulos rojos
+b)	Plaquetas
+c)	Glóbulos blancos
+d)	Linfocitos
+
+30.	¿Cuáles son los tejidos de conducción en las plantas?
+a)	Xilema y floema
+b)	Mesénquima y parénquima
+c)	Colénquima y xilema
+d)	Mesénquima y Floema
+
+31.	El órgano que poseen las aves para almacenar alimento se le denomina:
+a)	Buche
+b)	Cloaca
+c)	Estómago
+d)	Molleja
+
+32.	¿Por qué medio los organismos unicelulares pueden eliminar las sustancias de desecho?
+a)	Vacuolas contráctiles
+b)	Células flamígeras
+c)	Protonefridios
+d)	Nerfidios
+
+33.	Son las sustancias segregadas en las glándulas y que actúan en sitios diferentes de donde son producidas: 
+a)	Hormonas
+b)	Antígenos
+c)	Sueros
+d)	Globulinas
+
+34.	La función de las glándulas endocrinas consiste en:
+a)	Producir hormonas directamente de la sangre
+b)	Secretar saliva y sudor
+c)	Desechar sustancias tóxicas
+d)	Secretar enzimas
+
+35.	La hormona que mantiene bajos los niveles de concentración de glucosa en la sangre es:
+a)	Insulina
+b)	Glucagón
+c)	Cortisol
+d)	Tirosina
+
+36.	Forma de reproducción en la que no hay formación de gametos:
+a)	ASexual
+b)	Cigomórfica
+c)	Morfológica
+d)	sexual
+37.	Par de cromosomas en los que surge el Síndrome de Down:
+a)	21
+b)	13
+c)	24
+d)	15
+
+38.	Son los tres grupos de carbohidratos o azúcares:
+a)	Oligosacáridos, polisacáridos y monosacáridos
+b)	Galactosa, sacarosa y celulosa
+c)	Ribosa, Glucosa y almidón
+d)	Monosacáridos simples y almidón
+
+39.	El lugar en donde ocurre la segunda división meiótica en la ovogénesis es:
+a)	El ovario
+b)	El útero
+c)	El oviducto
+d)	La vagina
+
+40.	¿Cuál de estas no es una función de las proteínas?
+a)	Ser la primera fuente de energía
+b)	Actuar como molécula transportadora
+c)	Tener función como enzima
+d)	Actuar como anticuerpo
+
