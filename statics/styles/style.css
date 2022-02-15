@@ -8,7 +8,7 @@ html, body {
     height: 408px;
 }
 
-.box{
+.cont{
     width: 100%;
     height: 100%;
     display: flex;
@@ -23,7 +23,7 @@ html, body {
     color: #b2dfdb;
 }
 
-.opcion:hover {
+.opcion:hover, .opcion:focus {
     color: #33691e;
     cursor: pointer;
 }
