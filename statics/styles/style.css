@@ -1,7 +1,7 @@
 html, body {
-    font-family: 'ipixelu' !important;
-    margin: 0 !important;
+    font-family: 'Arcade' !important;
     background-color: #0096A7 !important;
+    margin-top: 2% !important;
 }
 
 h1 {
@@ -14,13 +14,18 @@ h1 {
 }
 
 .opcion {
-    font-size: 50px;
+    font-size: 30px;
     color: #ffffff;
-    border-radius: 10px;
-    background-color: #0096A7;
+    border-radius: 20px;
+    background-color: #05A7B9;
     border: 3pt solid #F2AB18;
-    padding: 10px;
+    width: 25%;
+    padding: 5px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.opcion:hover{
+    width: 27%;
 }
 
 :focus {
@@ -30,6 +35,6 @@ h1 {
 /*=FUENTES
 ------------------------------------------------------------------------------------------*/
 @font-face {
-    font-family: 'ipixelu';
-    src: url(../fonts/I-pixel-u.ttf);
+    font-family: 'Arcade';
+    src: url(../fonts/8_bit_arcade/8-bit\ Arcade\ In.ttf);
 }

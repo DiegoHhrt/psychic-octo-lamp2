@@ -4,7 +4,7 @@ function acciones (evento) {
 
     switch (opt) {
         case 'Jugar':
-            window.location = "./juego.html";
+            window.location = "./seleccion.html";
             break;
 
         case 'Instrucciones':
