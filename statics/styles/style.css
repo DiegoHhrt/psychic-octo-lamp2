@@ -1,36 +1,35 @@
 html, body {
-    margin: 0;
-    background-color: rgb(19, 33, 44);
+    font-family: 'ipixelu' !important;
+    margin: 0 !important;
+    background-color: #0096A7 !important;
+}
+
+h1 {
+    font-size: 75px !important;
 }
 
 #octolamp {
-    width: 846px;
-    height: 408px;
-}
-
-.cont{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
+    width: 100px;
+    height: 100px;
 }
 
 .opcion {
-    font-family: 'ipixelu';
-    font-size: 70px;
-    color: #b2dfdb;
+    font-size: 50px;
+    color: #ffffff;
+    border-radius: 10px;
+    background-color: #0096A7;
+    border: 3pt solid #F2AB18;
+    padding: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.opcion:hover, .opcion:focus {
-    color: #33691e;
-    cursor: pointer;
+:focus {
+    color: #F2AB18;
 }
 
 /*=FUENTES
 ------------------------------------------------------------------------------------------*/
 @font-face {
     font-family: 'ipixelu';
-    src: url(/psychic-octo-lamp/statics/fonts/I-pixel-u.ttf);
+    src: url(../fonts/I-pixel-u.ttf);
 }
