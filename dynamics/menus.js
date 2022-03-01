@@ -20,6 +20,7 @@ window.onload = () => {
         }
     });
 
+    // Evento que detecta cuando el mouse se sale de un botón
     opciones.map(button => button.addEventListener('mouseleave', () => {
         mousover = false;
     }));
@@ -78,7 +79,7 @@ if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
             },
         },
     ]
-} else if ('seleccion.html') {
+} else if (pag === 'seleccion.html') {
     opcionesMenu = [
         {
             opcionId: '2',
@@ -99,6 +100,16 @@ if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
             callback: () => {
                 document.cookie = "numJug =" + 4;
                 window.location = './jugadores.html';
+            },
+        },
+    ]
+} else if (pag === 'jugadores.html') {
+    opcionesMenu = [
+        {
+            opcionId: 'continuar',
+            callback: () => {
+                window.location = './juego.html' // TODO: cambiar por vista tablero.
+                guardaNom();
             },
         },
     ]
