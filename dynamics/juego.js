@@ -3,6 +3,8 @@ let juegoCanvas;
 let ctx;
 let drawnFrames = 0;
 let inicio;
+let frame_previo = new Date();
+let framerate = 0;
 let fuente = new FontFace('fuente', 'url(./statics/fonts/I-pixel-u.ttf)')
 let factor = 16;
 let factorJuan = 0;
@@ -24,7 +26,13 @@ function mostrarFramerate() {
     ctx.textAlign = "center";
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "20px monospace";
-    let framerate = Math.floor(drawnFrames / ((Date.now() - inicio) / 1000));
+
+    if (Date.now() - frame_previo >= 1000) {
+        framerate = drawnFrames;
+        frame_previo = Date.now();
+        drawnFrames = 0;
+    }
+
     ctx.fillText(`${framerate} fps`, 50, 50);
     ctx.closePath();
     drawnFrames++;
