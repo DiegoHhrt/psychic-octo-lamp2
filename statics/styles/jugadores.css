@@ -2,7 +2,7 @@
     margin-top: 20%;
     width: 300px;
     height: 300px;
-    padding-top: 10px;
+    padding-top: 50px;
     background: #05A7B9;
     border: 7px solid #F2AB18;
     box-sizing: border-box;
@@ -20,4 +20,8 @@
     border-radius: 5px;
     border: none;
     color: black !important;
+}
+
+img{
+    margin-left: 25%;
 }

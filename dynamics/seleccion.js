@@ -4,7 +4,7 @@ window.onload = () => {
     //redireccionamiento a jugadores.html
     opcion[0].addEventListener('click',function (redir) {
         redir.preventDefault(); //esto cancela el comportamiento del click
-        setTimeout(()=> location.href="./templates/jugadores.html");
+        setTimeout(()=> location.href="./jugadores.html");
     });
 
     document.addEventListener("click", function(evento){
