@@ -35,10 +35,6 @@ p{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.opcion:hover{
-    width: 27%;
-}
-
 :focus {
     color: #F2AB18;
 }
@@ -47,7 +43,7 @@ p{
 ------------------------------------------------------------------------------------------*/
 @font-face {
     font-family: 'Arcade';
-    src: url(../fonts/8_bit_arcade/8-bit\ Arcade\ In.ttf);  
+    src: url(../fonts/8_bit_arcade/8-bit\ Arcade\ In.ttf);
 }
 
 @font-face {
@@ -58,7 +54,7 @@ p{
 /*=MEDIACUERIS
 ------------------------------------------------------------------------------------------*/
 
-@media screen and (max-width: 772px) { 
+@media screen and (max-width: 772px) {
 
     h1{
         font-size: 100px !important;
