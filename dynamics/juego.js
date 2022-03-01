@@ -15,7 +15,6 @@ function cicloJuego() {
     ctx.fillRect(0, 0, juegoCanvas.width, juegoCanvas.height);
     ctx.closePath();
 
-    dibujarPantallaJugadores(ctx, factor);
     mostrarFramerate();
     requestAnimationFrame(cicloJuego);
 }

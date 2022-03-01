@@ -1,11 +1,21 @@
 html, body {
-    font-family: 'Arcade' !important;
+    font-family: 'Ipixelu' !important;
     background-color: #0096A7 !important;
     margin-top: 2% !important;
 }
 
-h1 {
-    font-size: 75px !important;
+h1{
+    color: #F2AB18;
+    font-size: 125px !important;
+    margin-bottom: 0% !important;
+    text-align: center;
+    margin-left: 100px;
+}
+
+p{
+    margin-top: 0% !important;
+    font-size: 40px;
+    color: white;
 }
 
 #octolamp {
@@ -16,6 +26,7 @@ h1 {
 .opcion {
     font-size: 30px;
     color: #ffffff;
+    min-width: 253px;
     border-radius: 20px;
     background-color: #05A7B9;
     border: 3pt solid #F2AB18;
@@ -36,5 +47,21 @@ h1 {
 ------------------------------------------------------------------------------------------*/
 @font-face {
     font-family: 'Arcade';
-    src: url(../fonts/8_bit_arcade/8-bit\ Arcade\ In.ttf);
+    src: url(../fonts/8_bit_arcade/8-bit\ Arcade\ In.ttf);  
+}
+
+@font-face {
+    font-family: 'Ipixelu';
+    src: url(../fonts/I-pixel-u.ttf);
+}
+
+/*=MEDIACUERIS
+------------------------------------------------------------------------------------------*/
+
+@media screen and (max-width: 772px) { 
+
+    h1{
+        font-size: 100px !important;
+    }
+
 }

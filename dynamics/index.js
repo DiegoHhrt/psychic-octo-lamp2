@@ -4,7 +4,7 @@ function acciones (evento) {
 
     switch (opt) {
         case 'Jugar':
-            window.location = "./seleccion.html";
+            window.location = "./templates/seleccion.html";
             break;
 
         case 'Instrucciones':
@@ -20,6 +20,7 @@ function acciones (evento) {
 window.onload = () => {
 
     let indice = 0;
+    let mousover = false;
     const opcionesDiv = document.getElementById('opciones');
     const opciones = Array.from(document.getElementsByClassName('opcion'));
     opciones[indice].focus();
@@ -29,8 +30,24 @@ window.onload = () => {
         indiceTarget = opciones.indexOf(evento.target);
         indice = (indiceTarget >= 0) ? indiceTarget : indice;
         evento.target.focus();
+        
+        // Guardamos en una variable cuando esta haciendo hover en un boton.
+        if (evento.target.className === "opcion") {
+            mousover = true;
+        }
+
     });
-    opcionesDiv.addEventListener('click', evento => acciones(evento));
+    
+    // Asignación del evento 'mouseleave' a cada uno de los botones
+    opciones.map( button => button.addEventListener( 'mouseleave', () => mousover = false )); // Guardamos en una variable cuando sale de un boton
+
+    // Evento Click 
+    opcionesDiv.addEventListener('click', evento => {
+        // Solo funciona cuando hacer hover en alguno de los divs (mousover===true)
+        if ( mousover ) {
+            acciones(evento)
+        }
+    });
 
     // Seleccionar mediante teclado (tab y enter/espacio)
     opcionesDiv.addEventListener('keydown', evento => {
