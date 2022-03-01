@@ -24,10 +24,7 @@
 }
 
 .cuadro:hover{
-    height: 220px;
-    width: 220px;
+    /* height: 220px; */
+    /* width: 220px; */
     cursor: pointer;
 }
-
-
-
