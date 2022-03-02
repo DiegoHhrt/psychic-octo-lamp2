@@ -1,3 +1,7 @@
+h1 {
+    font-size: 100px !important;
+}
+
 .container{
     color: #F2AB18;
 }
@@ -14,6 +18,7 @@
 
 .cuadro{
     width: 200px;
+    min-width: 200px !important;
     height: 200px;
     background: #05A7B9;
     border: 7px solid #F2AB18;
