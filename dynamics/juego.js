@@ -23,6 +23,22 @@ if (tablero === pasos21) {
     imagenTablero.src = '../statics/img/42.png';
 }
 
+console.log(virtualWidth - imagenTablero.width);
+let dado = new Dado(
+    (virtualWidth - imagenTablero.width) / 2 - 32,
+    tamanoCasilla * 4.5
+);
+
+function checarSiAcabaronTodos() {
+    let todosAcabaron = true;
+    pulpitos.forEach(pulpito => {
+        if (pulpito.casilla < tablero.length) {
+            todosAcabaron = false;
+        }
+    })
+    return todosAcabaron;
+}
+
 function cicloJuego() {
     desactivarSuavizado();
     ctx.beginPath();
@@ -43,11 +59,13 @@ function cicloJuego() {
 
     ctx.closePath();
 
-    mostrarFramerate();
+    dado.actualizar(ctx, factorJuan);
+
     pulpitos.forEach(pulpito => {
         pulpito.actualizar(ctx, framerate, factorJuan);
     });
 
+    mostrarFramerate();
     requestAnimationFrame(cicloJuego);
 }
 
@@ -55,6 +73,41 @@ function desactivarSuavizado() {
     ctx.webkitImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
     ctx.imageSmoothingEnabled = false;
+}
+
+function iniciarJuego() {
+    juegoDiv = document.getElementById("juego");
+    juegoCanvas = document.getElementById("juego-canvas");
+    ctx = juegoCanvas.getContext("2d");
+
+    redimensionarCanvas();
+
+    juegoCanvas.addEventListener("click", (evento) => {
+        console.log(posicionMouse(evento));
+    });
+
+    for (let i = 1; i <= jugadores; i++) {
+        let dy = (i % 2) ? 0 : 32;
+        let dx = (i > 1 && i < 4) ? 0 : 32;
+        pulpitos.push(
+            new Pulpito(
+                `../statics/img/pulpito_sprite_sheet_p${i}.png`,
+                virtualWidth - 24 - dx,
+                virtualHeight - 24 - dy
+            )
+        );
+    }
+
+    pulpitos.push(
+        new Pulpito(
+            '../statics/img/pulpito_sprite_sheet_ignorancia.png',
+            virtualWidth - 24 - 16,
+            virtualHeight - 24 - 16
+        )
+    );
+
+    inicio = new Date();
+    cicloJuego();
 }
 
 function mostrarFramerate() {
@@ -94,10 +147,6 @@ async function moverCasilla(pulpito, num_casillas) {
     fin = checarSiAcabaronTodos();
 }
 
-function numeroAleatorio(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + 1);
-}
-
 function posicionMouse(evento) {
     let clientRect = juegoCanvas.getBoundingClientRect();
     return {
@@ -123,16 +172,6 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function checarSiAcabaronTodos() {
-    let todosAcabaron = true;
-    pulpitos.forEach(pulpito => {
-        if (pulpito.casilla < tablero.length) {
-            todosAcabaron = false;
-        }
-    })
-    return todosAcabaron;
-}
-
 async function turno(indice) {
     if (fin) {
         return;
@@ -155,36 +194,6 @@ async function turno(indice) {
 window.addEventListener("resize", redimensionarCanvas);
 
 document.addEventListener("DOMContentLoaded", () => {
-    juegoDiv = document.getElementById("juego");
-    juegoCanvas = document.getElementById("juego-canvas");
-    ctx = juegoCanvas.getContext("2d");
-
-    redimensionarCanvas();
-
-    juegoCanvas.addEventListener("click", (evento) => {
-        console.log(posicionMouse(evento));
-    });
-
-    for (let i = 1; i <= jugadores; i++) {
-        let dy = (i % 2) ? 0 : 32;
-        let dx = (i > 1 && i < 4) ? 0 : 32;
-        pulpitos.push(
-            new Pulpito(
-                `../statics/img/pulpito_sprite_sheet_p${i}.png`,
-                virtualWidth - 24 - dx,
-                virtualHeight - 24 - dy
-            )
-        );
-    }
-
-    pulpitos.push(
-        new Pulpito(
-            '../statics/img/pulpito_sprite_sheet_ignorancia.png',
-            virtualWidth - 24 - 16,
-            virtualHeight - 24 - 16
-        )
-    );
-
-    inicio = new Date();
-    cicloJuego();
+    setTimeout(iniciarJuego, 100);
 });
+
