@@ -1,5 +1,5 @@
-const tablero = pasos42;
-const jugadores = 4;
+const tablero = (valCookie('tab') == 21) ? pasos21 : pasos42;
+const jugadores = parseInt(valCookie('numJug'));
 
 let juegoDiv;
 let juegoCanvas;
@@ -16,28 +16,29 @@ let virtualWidth = 672;
 let pulpitos = [];
 let fin = false;
 
+let imagenTablero = new Image();
+if (tablero === pasos21) {
+    imagenTablero.src = '../statics/img/21.png';
+} else {
+    imagenTablero.src = '../statics/img/42.png';
+}
+
 function cicloJuego() {
     desactivarSuavizado();
     ctx.beginPath();
     ctx.fillStyle = "#0096A7";
     ctx.fillRect(0, 0, juegoCanvas.width, juegoCanvas.height);
 
-    let lol = new Image();
-    if (tablero === pasos21) {
-        lol.src = '../statics/img/21.png';
-    } else {
-        lol.src = '../statics/img/42.png';
-    }
     ctx.drawImage(
-        lol,
+        imagenTablero,
         0,
         0,
-        lol.width,
-        lol.height,
-        (virtualWidth - lol.width) * factorJuan,
-        (virtualHeight - lol.height) * factorJuan,
-        lol.width * factorJuan,
-        lol.width * factorJuan,
+        imagenTablero.width,
+        imagenTablero.height,
+        (virtualWidth - imagenTablero.width) * factorJuan,
+        (virtualHeight - imagenTablero.height) * factorJuan,
+        imagenTablero.width * factorJuan,
+        imagenTablero.width * factorJuan,
     );
 
     ctx.closePath();
@@ -51,7 +52,6 @@ function cicloJuego() {
 }
 
 function desactivarSuavizado() {
-    // ctx.mozImageSmoothingEnabled = false;
     ctx.webkitImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
     ctx.imageSmoothingEnabled = false;
