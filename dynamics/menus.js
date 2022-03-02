@@ -35,7 +35,7 @@ window.onload = () => {
 
     // Seleccionar mediante teclado (enter/espacio)
     window.addEventListener('keydown', evento => {
-        if (evento.code === "Enter" || evento.code === "Space") {
+        if (evento.code === "Enter") {
             acciones(opciones[indice]);
         }
     });
@@ -108,9 +108,26 @@ if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
         {
             opcionId: 'continuar',
             callback: () => {
-                window.location = './juego.html' // TODO: cambiar por vista tablero.
                 guardaNom();
+                window.location = './tam_tablero.html'
             },
+        },
+    ]
+} else if (pag === 'tam_tablero.html') {
+    opcionesMenu = [
+        {
+            opcionId: "21",
+            callback: () => {
+                document.cookie = "tab = 21";
+                window.location = './juego.html';
+            }
+        },
+        {
+            opcionId: "42",
+            callback: () => {
+                document.cookie = "tab = 42";
+                window.location = './juego.html';
+            }
         },
     ]
 }
