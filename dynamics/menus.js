@@ -1,4 +1,5 @@
 let opcionesMenu = [];
+let pag;
 
 window.onload = () => {
 
@@ -19,6 +20,7 @@ window.onload = () => {
         }
     });
 
+    // Evento que detecta cuando el mouse se sale de un botón
     opciones.map(button => button.addEventListener('mouseleave', () => {
         mousover = false;
     }));
@@ -54,51 +56,63 @@ window.onload = () => {
     })
 };
 
-switch (obtenerPaginaActual()) {
-    case 'index.html':
-        opcionesMenu = [
-            {
-                opcionId: 'jugar',
-                callback: () => {
-                    window.location = './templates/seleccion.html'
-                },
+pag = obtenerPaginaActual();
+
+if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
+    opcionesMenu = [
+        {
+            opcionId: 'jugar',
+            callback: () => {
+                window.location = './templates/seleccion.html';
             },
-            {
-                opcionId: 'instrucciones',
-                callback: () => {
-                    console.log('instrucciones');
-                },
+        },
+        {
+            opcionId: 'instrucciones',
+            callback: () => {
+                console.log('instrucciones');
             },
-            {
-                opcionId: 'creditos',
-                callback: () => {
-                    console.log('creditos');
-                },
+        },
+        {
+            opcionId: 'creditos',
+            callback: () => {
+                console.log('creditos');
             },
-        ]
-        break;
-    case 'seleccion.html':
-        opcionesMenu = [
-            {
-                opcionId: '2',
-                callback: () => {
-                    console.log('Dos jugadores');
-                },
+        },
+    ]
+} else if (pag === 'seleccion.html') {
+    opcionesMenu = [
+        {
+            opcionId: '2',
+            callback: () => {
+                document.cookie = "numJug =" + 2;
+                window.location = './jugadores.html';
             },
-            {
-                opcionId: '3',
-                callback: () => {
-                    console.log('Tres jugadores');
-                },
+        },
+        {
+            opcionId: '3',
+            callback: () => {
+                document.cookie = "numJug =" + 3;
+                window.location = './jugadores.html';
             },
-            {
-                opcionId: '4',
-                callback: () => {
-                    console.log('Cuatro jugadores');
-                },
+        },
+        {
+            opcionId: '4',
+            callback: () => {
+                document.cookie = "numJug =" + 4;
+                window.location = './jugadores.html';
             },
-        ]
-        break;
+        },
+    ]
+} else if (pag === 'jugadores.html') {
+    opcionesMenu = [
+        {
+            opcionId: 'continuar',
+            callback: () => {
+                window.location = './juego.html' // TODO: cambiar por vista tablero.
+                guardaNom();
+            },
+        },
+    ]
 }
 
 function acciones(opcion) {
