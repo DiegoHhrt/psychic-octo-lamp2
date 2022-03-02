@@ -42,16 +42,13 @@ window.onload = () => {
 
     // Elegir opción con las flechas
     window.addEventListener('keydown', evento => {
-        switch (evento.key) {
-            case 'ArrowUp':
-                indice--;
-                indice = (indice >= 0) ? indice : opciones.length - 1;
-                opciones[indice].focus();
-                break;
-            case 'ArrowDown':
-                indice = (indice + 1) % opciones.length;
-                opciones[indice].focus();
-                break;
+        if (evento.key === 'ArrowUp' || evento.key === 'ArrowLeft') {
+            indice--;
+            indice = (indice >= 0) ? indice : opciones.length - 1;
+            opciones[indice].focus();
+        } else if (evento.key === 'ArrowDown' || evento.key === 'ArrowRight') {
+            indice = (indice + 1) % opciones.length;
+            opciones[indice].focus();
         }
     })
 };
