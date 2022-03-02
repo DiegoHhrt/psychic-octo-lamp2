@@ -1,14 +1,29 @@
-let cookie = document.cookie
+function valCookie(nombreCookie) {
+    let cookies = document.cookie;
+    let arrCookies=cookies.split("; ");
+
+    //Ciclo que nos separa cada valor en el nombre, y en el valor de la cookie y lo va asignando a un arreglo.
+    for(const valor of arrCookies)
+    {
+        //Separando el valor obtenido en 2, donde el indice 0 es el nombre de la cookie, y el 1 es el valor.
+        const cookie = valor.split('=');
+        //if que nos permite verificar si el nombre es el que buscamos.
+        if (cookie[0] === nombreCookie)
+        {
+            return cookie[1];
+        }
+    }
+}
+
 //revisa con la cookie anterior cuantos jugadores seleccionaron
-let arrCookie0 = cookie.split(";")
-let arrCookie = arrCookie0[arrCookie0.length - 1].split("=")
-let columna = document.getElementsByClassName("d-flex")
-let row = document.getElementById("row")
+let cookieJug = valCookie('numJug');
+let columna = document.getElementsByClassName("d-flex");
+let row = document.getElementById("row");
 
 //asigna las columnas en base a los jugadores seleccionados
-if(arrCookie[1] >= 3 ){
+if(cookieJug >= 3 ){
         
-    let col = (arrCookie[1]==="3")? "col-4" : "col-3";
+    let col = (cookieJug==="3")? "col-4" : "col-3";
     
     for(let i=0; i<2; i++) {
         columna[i].classList.remove("col-6");
@@ -16,7 +31,7 @@ if(arrCookie[1] >= 3 ){
     }
 
     //genera los cuadros de los jugadores faltantes
-    for(i=3; i<=arrCookie[1]; i++) {
+    for(i=3; i<=cookieJug; i++) {
         let div1 = document.createElement("div");
         //genera el div de la columna
         row.appendChild(div1);
@@ -42,7 +57,7 @@ if(arrCookie[1] >= 3 ){
         //genera el input del nombre
         let nombre = document.createElement("input");
         nombre.setAttribute("type", "text");
-        nombre.setAttribute("placeholder", "Ingrese su nombre");
+        nombre.setAttribute("placeholder", `Jugador ${i}`);
         nombre.setAttribute("id", i);
         nombre.classList.add("nombre");
 
@@ -53,12 +68,15 @@ if(arrCookie[1] >= 3 ){
     
 }
 
+console.log(cookieJug);
+
 function guardaNom () {
     let inputs = Array.from(document.getElementsByTagName('input'));
     let nom_jugs = [];
 
     // Asignación del arreglo de nombres.
     inputs.map( (input, index) => {
+        input.value = input.value === ""? `Jugador ${index+1}`: input.value;
         nom_jugs[index] = {nombre: input.value}
     });
 
