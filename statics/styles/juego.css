@@ -3,14 +3,25 @@ html, body {
     padding-right: auto !important;
     margin: 0px !important;
 }
+
 #juego {
     max-height: 100vh;
     max-width: 100vw;
     padding: 0;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
+
 #juego-canvas {
     margin-left: auto;
     margin-right: auto;
+}
+
+#juego canvas, #overlay {
+    position: absolute;
+}
+
+#overlay {
+    z-index: 2;
 }
