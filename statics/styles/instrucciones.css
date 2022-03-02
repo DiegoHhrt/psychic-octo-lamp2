@@ -1,0 +1,24 @@
+html, body {
+    background-color: #0096A7 !important;
+    margin-top: 2% !important;
+    font-family: Arcade !important;
+    font-size: 20px;
+    color: white !important;
+    padding: 5%;
+  
+}
+
+h1{
+    color: #F2AB18;
+    text-align: center;
+}
+
+img{
+    border: 3px solid white;
+    border-radius: 1em;
+}
+
+@font-face {
+    font-family: "Arcade";
+    src: url("../fonts/Moder\ DOS\ 437.ttf");
+}

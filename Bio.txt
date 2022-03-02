@@ -31,8 +31,7 @@ b)	Bióxido de carbono
 c)	Monóxido de Carbono
 d)	Metano
 
-6.	 Se refiere a la parte de la Tierra habitada por seres vivos, incluye a los componentes tanto
-vivos como ambientales:
+6.	 Se refiere a la parte de la Tierra habitada por seres vivos, incluye a los componentes tanto vivos como ambientales:
 a)	biósfera
 b)	bioma
 c)	población
@@ -161,7 +160,7 @@ d)	Adiposo
 27.	La respiración que realizan los anélidos a través de la piel se llama:
 a)	Cutánea
 b)	Branquial
-c)	Traqeal
+c)	Traqueal
 d)	Alveolar
 
 28.	El oxígeno penetra los tejidos de las plantas por estructuras llamadas:
@@ -213,10 +212,11 @@ c)	Cortisol
 d)	Tirosina
 
 36.	Forma de reproducción en la que no hay formación de gametos:
-a)	ASexual
+a)	Asexual
 b)	Cigomórfica
 c)	Morfológica
 d)	sexual
+
 37.	Par de cromosomas en los que surge el Síndrome de Down:
 a)	21
 b)	13
