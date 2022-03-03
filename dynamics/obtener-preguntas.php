@@ -10,11 +10,11 @@ require './config.php';
 
 $conexion = conectar_base(); //Inicio de la conexión con la base de datos.
 
-$json = json_decode(file_get_contents('php://input'), true);
-$email = $json['email'];
+//$json = json_decode(file_get_contents('php://input'), true);
+//$email = $json['email'];
 
 
-header('Content-type: application/json');
+//header('Content-type: application/json');
 
 // TODO:: BORRAD VARIABLES DE PRUEBA.
 $tema = 3;
@@ -28,22 +28,27 @@ $pregunta = mysqli_fetch_assoc($resultado);
 
 
 // Petición para obtener las respuestas de la pregunta
-$query_respuestas = "SELECT respuesta FROM preguntahasrespuesta 
-                     INNER JOIN preguntahasrespuesta.id_respues=respuesta.id_respuesta 
-                     WHERE id_pregunta=$pregunta['id_pregunta']";
+$query_respuestas = "SELECT respuesta, correcta FROM preguntahasrespuesta 
+                     INNER JOIN preguntahasrespuesta.id_respuesta=respuesta.id_respuesta
+                     WHERE id_pregunta=$pregunta[id_pregunta]";
 
 $resultado_pregunta = mysqli_query($conexion, $query_respuestas);
-$respuesta = mysqli_fetch_assoc($resultado_pregunta);
+
+//$respuesta = mysqli_fetch_assoc($resultado_pregunta);
+
+
+
 
 mysqli_close($conexion); //Finalizando la conexión con la base de datos
 
-if (mysqli_num_rows($resultado) === 1) {
-    $arreglo = mysqli_fetch_assoc($resultado);
-    echo json_encode($arreglo['calendario']);
-} else {
-    echo json_encode(false);
-}
+
+
+
+//if (mysqli_num_rows($resultado) === 1) {
+    //echo json_encode($respuest);
+//} else {
+//    echo json_encode(false);
+//}
+
 
 // EOF
-
->
