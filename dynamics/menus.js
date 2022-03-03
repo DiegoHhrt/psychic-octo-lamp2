@@ -69,12 +69,6 @@ if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
                 window.location = './templates/instrucciones.html'
             },
         },
-        {
-            opcionId: 'creditos',
-            callback: () => {
-                console.log('creditos');
-            },
-        },
     ]
 } else if (pag === 'seleccion.html') {
     opcionesMenu = [
