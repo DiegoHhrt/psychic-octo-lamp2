@@ -1,24 +1,18 @@
 <?php
 
-function preguntaRand() {
-
-
-
-}
-
 require './config.php';
 
 $conexion = conectar_base(); //Inicio de la conexión con la base de datos.
 
-//$json = json_decode(file_get_contents('php://input'), true);
-//$email = $json['email'];
+ $json = json_decode(file_get_contents('php://input'), true);
 
 
-//header('Content-type: application/json');
+
+header('Content-type: application/json');
 
 // TODO:: BORRAD VARIABLES DE PRUEBA.
-$tema = 3;
-$preguntasYaHechas = [24, 65, 22];
+$tema = ;
+$preguntasYaHechas = [];
 $preguntasYaHechas = implode(',',$preguntasYaHechas);
 
 // Petición para obtener una pregunta acerca del tema recibido
@@ -26,16 +20,23 @@ $query = "SELECT id_pregunta, pregunta  FROM pregunta WHERE id_tema='$tema' AND 
 $resultado = mysqli_query($conexion, $query);
 $pregunta = mysqli_fetch_assoc($resultado);
 
+$id_pregunta = $pregunta["id_pregunta"];
 
 // Petición para obtener las respuestas de la pregunta
-$query_respuestas = "SELECT respuesta, correcta FROM preguntahasrespuesta 
-                     INNER JOIN preguntahasrespuesta.id_respuesta=respuesta.id_respuesta
-                     WHERE id_pregunta=$pregunta[id_pregunta]";
+$query_respuestas = "SELECT respuesta FROM preguntahasrespuesta INNER JOIN respuesta ON preguntahasrespuesta.id_respuesta=respuesta.id_respuesta WHERE id_pregunta=$id_pregunta";
 
-$resultado_pregunta = mysqli_query($conexion, $query_respuestas);
+$resultado_respuestas = mysqli_query($conexion, $query_respuestas);
 
-//$respuesta = mysqli_fetch_assoc($resultado_pregunta);
+$arreglo[] = 0; ;
 
+
+
+while($respuestas=mysqli_fetch_assoc($resultado_respuestas)) {
+        array_push($arreglo, $respuestas);
+}
+
+unset($arreglo[0]);
+$envio[] = array_merge($pregunta, $arreglo);
 
 
 
@@ -44,11 +45,10 @@ mysqli_close($conexion); //Finalizando la conexión con la base de datos
 
 
 
-//if (mysqli_num_rows($resultado) === 1) {
-    //echo json_encode($respuest);
-//} else {
-//    echo json_encode(false);
-//}
-
+ if ($envio) {
+     echo json_encode($envio, JSON_UNESCAPED_UNICODE);
+ } else {
+     echo json_encode(false);
+}
 
 // EOF
