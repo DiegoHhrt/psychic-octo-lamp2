@@ -1,5 +1,5 @@
 class Pulpito {
-    constructor(rutaSprites, x, y) {
+    constructor(rutaSprites, x, y, nombre) {
         let spriteSheet = new Image();
         spriteSheet.src = rutaSprites;
 
@@ -7,6 +7,7 @@ class Pulpito {
         this.spritePos = [0, 0];
         this.x = x;
         this.y = y;
+        this.nombre = nombre;
         this.direccion = '';
         this.tamano = 16;
         this.velocidad = this.tamano * 4;

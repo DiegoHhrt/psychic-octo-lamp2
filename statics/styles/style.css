@@ -51,6 +51,11 @@ p{
     src: url(../fonts/I-pixel-u.ttf);
 }
 
+@font-face {
+    font-family: 'PressStart2P';
+    src: url(../fonts/pressstart2p/PressStart2P.ttf);
+}
+
 /*=MEDIACUERIS
 ------------------------------------------------------------------------------------------*/
 

@@ -1,5 +1,9 @@
 const tablero = (valCookie('tab') == 21) ? pasos21 : pasos42;
 const jugadores = parseInt(valCookie('numJug'));
+const pregunta = {
+    contestable: false,
+    opcionElegida: null,
+};
 
 let juegoDiv;
 let juegoCanvas;
@@ -14,6 +18,7 @@ let factorJuan = 0;
 let virtualHeight = 480;
 let virtualWidth = 672;
 let pulpitos = [];
+let overlay = document.getElementById('overlay');
 let fin = false;
 
 let imagenTablero = new Image();
@@ -23,19 +28,45 @@ if (tablero === pasos21) {
     imagenTablero.src = '../statics/img/42.png';
 }
 
-console.log(virtualWidth - imagenTablero.width);
 let dado = new Dado(
     (virtualWidth - imagenTablero.width) / 2 - 32,
     tamanoCasilla * 4.5
 );
 
+opcionesMenu = [
+    {
+        opcionId: '1',
+        callback: () => {
+           elegirOpcion(1);
+        }
+    },
+    {
+        opcionId: '2',
+        callback: () => {
+           elegirOpcion(2);
+        }
+    },
+    {
+        opcionId: '3',
+        callback: () => {
+           elegirOpcion(3);
+        }
+    },
+    {
+        opcionId: '4',
+        callback: () => {
+           elegirOpcion(4);
+        }
+    },
+];
+
 function checarSiAcabaronTodos() {
     let todosAcabaron = true;
-    pulpitos.forEach(pulpito => {
-        if (pulpito.casilla < tablero.length) {
+    for (let i = 0; i < pulpitos.length - 1; i++) {
+        if (pulpitos[i].casilla < tablero.length) {
             todosAcabaron = false;
         }
-    })
+    }
     return todosAcabaron;
 }
 
@@ -75,6 +106,14 @@ function desactivarSuavizado() {
     ctx.imageSmoothingEnabled = false;
 }
 
+function elegirOpcion(n) {
+    if (!pregunta.contestable) {
+        return;
+    }
+    opcionElegida = n;
+    pregunta.contestable = false;
+}
+
 function iniciarJuego() {
     juegoDiv = document.getElementById("juego");
     juegoCanvas = document.getElementById("juego-canvas");
@@ -86,6 +125,7 @@ function iniciarJuego() {
         console.log(posicionMouse(evento));
     });
 
+    let nombresPulpitos = JSON.parse(valCookie('nombres'));
     for (let i = 1; i <= jugadores; i++) {
         let dy = (i % 2) ? 0 : 32;
         let dx = (i > 1 && i < 4) ? 0 : 32;
@@ -93,7 +133,8 @@ function iniciarJuego() {
             new Pulpito(
                 `../statics/img/pulpito_sprite_sheet_p${i}.png`,
                 virtualWidth - 24 - dx,
-                virtualHeight - 24 - dy
+                virtualHeight - 24 - dy,
+                nombresPulpitos[i - 1].nombre
             )
         );
     }
@@ -102,7 +143,8 @@ function iniciarJuego() {
         new Pulpito(
             '../statics/img/pulpito_sprite_sheet_ignorancia.png',
             virtualWidth - 24 - 16,
-            virtualHeight - 24 - 16
+            virtualHeight - 24 - 16,
+            'Ignorancia'
         )
     );
 
@@ -164,36 +206,65 @@ function redimensionarCanvas() {
         juegoCanvas.width = window.innerHeight * (virtualWidth / virtualHeight);
     }
 
-    // document.body.style.paddingLeft = (window.innerHeight - juegoCanvas.width) / 2;
     factorJuan = juegoCanvas.width / virtualWidth;
+    juegoCanvas.style.marginLeft = `${(window.innerWidth - juegoCanvas.width) / 2}px`;
+    overlay.style.marginLeft = `${(window.innerWidth - juegoCanvas.width) / 2}px`;
+    overlay.style.width = `${juegoCanvas.width}px`;
+    overlay.style.height = `${juegoCanvas.height}px`;
 }
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
+;
 async function turno(indice) {
     if (fin) {
         return;
     }
-    if (indice != pulpitos.length - 1) {
-        moverCasilla(pulpitos[indice], numeroAleatorio(2, 3))
-            .then(() => {
-                moverCasilla(pulpitos[pulpitos.length - 1], 1)
-                    .then(() => {
-                        sleep(0).then(() => {
-                            turno(indice + 1);
-                        });
-                    })
-            });
+
+    preguntar(indice);
+    esperarCambioContestable(pregunta.contestable, async () => {
+        await sleep(2000);
+        if (indice != pulpitos.length - 1) {
+            console.log(indice);
+            await moverCasilla(pulpitos[indice], 22);
+            await moverCasilla(pulpitos[pulpitos.length - 1], 1);
+            await sleep(2000);
+            if (indice + 1 != pulpitos.length - 1) {
+                turno(indice + 1);
+            } else {
+                turno(0);
+            }
+        }
+    });
+}
+
+async function preguntar(indice) {
+    let span = document.getElementById('turno-jugador');
+    span.innerText = `${pulpitos[indice].nombre}`
+
+    pregunta.contestable = true;
+    overlay.classList.remove('hidden');
+    return esperarCambioContestable(pregunta.contestable, async () => {
+        console.log('La opcion es', opcionElegida);
+        await sleep(2000);
+        overlay.classList.add('hidden');
+    });
+}
+
+async function esperarCambioContestable(valorAnterior, callback) {
+    if (pregunta.contestable === valorAnterior) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                esperarCambioContestable(valorAnterior, callback);
+            }, 100);
+        });
     } else {
-        turno(0);
+        callback();
     }
 }
 
 window.addEventListener("resize", redimensionarCanvas);
 
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(iniciarJuego, 100);
-});
+document.addEventListener("DOMContentLoaded", iniciarJuego);
 
