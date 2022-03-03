@@ -1,8 +1,8 @@
 <?php
 
-define('DBUSER', 'octolamper');
+define('DBUSER', 'root');
 define('DBHOST', 'localhost');
-define('PASSWORD', 'mArat0n0ctOl4mP');
+define('PASSWORD', '');
 define('DB', 'octodb');
 
 function conectar_base()
