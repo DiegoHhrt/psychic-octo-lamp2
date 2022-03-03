@@ -48,8 +48,6 @@ if (cookieJug >= 3) {
     }
 }
 
-console.log(cookieJug);
-
 function guardaNom() {
     let inputs = Array.from(document.getElementsByTagName('input'));
     let nom_jugs = [];
