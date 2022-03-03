@@ -53,8 +53,10 @@ window.onload = () => {
     })
 };
 
+// Guarda la página en la que te encuentras.
 pag = obtenerPaginaActual();
 
+// Dependiendo de la página en que te encuentres, podrás hacer una u otra acción en el menú.
 if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
     opcionesMenu = [
         {
@@ -125,6 +127,7 @@ if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
     ]
 }
 
+// Dependiendo de la opción, ejecuta un callback.
 function acciones(opcion) {
     opcionesMenu.forEach(elemento => {
         if (opcion.id === elemento.opcionId) {
@@ -133,6 +136,7 @@ function acciones(opcion) {
     });
 }
 
+// Función para obtener la página actual
 function obtenerPaginaActual() {
     let url = window.location.toString().split('/');
     let paginaActual = '';
