@@ -4,19 +4,16 @@ require './config.php';
 
 $conexion = conectar_base(); //Inicio de la conexión con la base de datos.
 
- $json = json_decode(file_get_contents('php://input'), true);
-
-
+// Recibiendo los datos
+$json = json_decode(file_get_contents('php://input'), true);
+$temaId = $json['temaId'];
+$preguntasYaHechas = $json['preguntasYaHechas']
+$preguntasYaHechas = implode(',',$preguntasYaHechas);
 
 header('Content-type: application/json');
 
-// TODO:: BORRAD VARIABLES DE PRUEBA.
-$tema = ;
-$preguntasYaHechas = [];
-$preguntasYaHechas = implode(',',$preguntasYaHechas);
-
 // Petición para obtener una pregunta acerca del tema recibido
-$query = "SELECT id_pregunta, pregunta  FROM pregunta WHERE id_tema='$tema' AND id_pregunta NOT IN($preguntasYaHechas) ORDER BY RAND() LIMIT 1";
+$query = "SELECT id_pregunta, pregunta  FROM pregunta WHERE id_tema='$temaId' AND id_pregunta NOT IN($preguntasYaHechas) ORDER BY RAND() LIMIT 1";
 $resultado = mysqli_query($conexion, $query);
 $pregunta = mysqli_fetch_assoc($resultado);
 
