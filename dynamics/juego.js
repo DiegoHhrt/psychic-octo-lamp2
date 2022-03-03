@@ -112,6 +112,15 @@ function cicloJuego() {
 
     ctx.closePath();
 
+    if (fin) {
+        cadenaGanadores = 'Ganadores:\n';
+        arregloGanadores.forEach((pulpito, indice) => {
+            cadenaGanadores += `${indice + 1}. ${pulpito.nombre}\n`;
+        });
+        alert(cadenaGanadores);
+        document.cookie = `estadoJuego={}`;
+        window.location = '../';
+    }
     dado.actualizar(ctx, factor);
 
     pulpitos.forEach(pulpito => {
@@ -119,6 +128,7 @@ function cicloJuego() {
     });
 
     conocerFramerate();
+
     requestAnimationFrame(cicloJuego);
 }
 
@@ -349,7 +359,6 @@ async function preguntar(indice) {
     // Cuando no se ha contestado previamente una pregunta, se pide una nueva
     if (pregunta.contestadaCorrectamente === null) {
         infoPregunta = await pedirPregunta();
-        console.log(infoPregunta);
     }
 
     let idPregunta = infoPregunta[0].id_pregunta;
@@ -396,7 +405,7 @@ async function preguntar(indice) {
     let spanTurno = document.getElementById('turno-jugador');
     spanTurno.innerText = `${pulpitos[indice].nombre}`
     let spanTema = document.getElementById('tema-pregunta');
-    spanTema.innerText = `${dado.getCara()}`
+    spanTema.innerText = `${dado.getCara()}. ${tema(dado.getCara())}`
     let spanValor = document.getElementById('valor-pregunta');
     spanValor.innerText = `${pregunta.valor}`
     let spanCorrecta = document.getElementById('es-correcta');
@@ -453,6 +462,23 @@ async function esperarCambioContestable(valorAnterior, callback) {
         });
     } else {
         callback();
+    }
+}
+
+function tema(id) {
+    switch (id) {
+        case 1:
+            return 'Informática';
+        case 2:
+            return 'Geografía';
+        case 3:
+            return 'Derecho';
+        case 4:
+            return 'Literatura';
+        case 5:
+            return 'Biología';
+        case 6:
+            return 'Historia';
     }
 }
 
