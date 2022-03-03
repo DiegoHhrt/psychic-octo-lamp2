@@ -15,20 +15,21 @@ class Pulpito {
         this.casilla = 0;
     }
 
-    dibujar(ctx, factorJuan) {
+    dibujar(ctx, factor) {
         ctx.drawImage(
             this.sprite,
             this.tamano * this.spritePos[0],
             this.tamano * this.spritePos[1],
             this.tamano,
             this.tamano,
-            this.x * factorJuan,
-            this.y * factorJuan,
-            factorJuan * this.tamano,
-            factorJuan * this.tamano,
+            this.x * factor,
+            this.y * factor,
+            factor * this.tamano,
+            factor * this.tamano,
         );
     }
 
+    // Cambia la sección del sprite que se dibuja para dar efecto de animación
     animar() {
         let ahora = Date.now();
         if (ahora - this.ultimaAnim >= 125) {
@@ -65,10 +66,10 @@ class Pulpito {
         }
     }
 
-    actualizar(ctx, framerate, factor, factorJuan) {
+    actualizar(ctx, framerate, factor) {
         this.animar();
         this.mover(framerate);
-        this.dibujar(ctx, factor, factorJuan);
+        this.dibujar(ctx, factor);
     }
 
     distancia(x, y) {

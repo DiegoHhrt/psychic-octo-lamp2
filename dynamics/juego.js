@@ -5,12 +5,11 @@ let juegoDiv;
 let juegoCanvas;
 let ctx;
 let drawnFrames = 0;
-let inicio;
 let frame_previo = new Date();
 let framerate = 60;
 let fuente = new FontFace('fuente', 'url(../statics/fonts/I-pixel-u.ttf)');
 let tamanoCasilla = 64;
-let factorJuan = 0;
+let factor = 0;
 let virtualHeight = 480;
 let virtualWidth = 672;
 let pulpitos = [];
@@ -28,6 +27,7 @@ let pregunta = {
 };
 let infoPregunta = {};
 
+// Se cambia de imagen de tablero dependiendo de lo elegido
 let imagenTablero = new Image();
 if (tablero === pasos21) {
     imagenTablero.src = '../statics/img/21.png';
@@ -35,11 +35,15 @@ if (tablero === pasos21) {
     imagenTablero.src = '../statics/img/42.png';
 }
 
+let octolamp = new Image();
+octolamp.src = '../statics/img/octolamp.png'
+
 let dado = new Dado(
     (virtualWidth - imagenTablero.width) / 2 - 32,
     tamanoCasilla * 4.5
 );
 
+// Las opciones elegibles en cada pregunta
 opcionesMenu = [
     {
         opcionId: '1',
@@ -84,30 +88,41 @@ function cicloJuego() {
     ctx.fillRect(0, 0, juegoCanvas.width, juegoCanvas.height);
 
     ctx.drawImage(
+        octolamp,
+        0,
+        0,
+        octolamp.width,
+        octolamp.height,
+        10 * factor,
+        75 * factor,
+        octolamp.width * factor / 4,
+        octolamp.height * factor / 4,
+    );
+    ctx.drawImage(
         imagenTablero,
         0,
         0,
         imagenTablero.width,
         imagenTablero.height,
-        (virtualWidth - imagenTablero.width) * factorJuan,
-        (virtualHeight - imagenTablero.height) * factorJuan,
-        imagenTablero.width * factorJuan,
-        imagenTablero.width * factorJuan,
+        (virtualWidth - imagenTablero.width) * factor,
+        (virtualHeight - imagenTablero.height) * factor,
+        imagenTablero.width * factor,
+        imagenTablero.width * factor,
     );
 
     ctx.closePath();
 
-    dado.actualizar(ctx, factorJuan);
+    dado.actualizar(ctx, factor);
 
     pulpitos.forEach(pulpito => {
-        pulpito.actualizar(ctx, framerate, factorJuan);
+        pulpito.actualizar(ctx, framerate, factor);
     });
 
     conocerFramerate();
-    console.log(framerate);
     requestAnimationFrame(cicloJuego);
 }
 
+// Función necesaria par que los pulpitos no se vean borrosos
 function desactivarSuavizado() {
     ctx.webkitImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
@@ -126,13 +141,14 @@ function elegirOpcion(n) {
     pregunta.contestable = false;
 }
 
+// Prepara las cosas para ejecutar el juego
 function iniciarJuego() {
     juegoDiv = document.getElementById("juego");
     juegoCanvas = document.getElementById("juego-canvas");
     ctx = juegoCanvas.getContext("2d");
-
     redimensionarCanvas();
 
+    // Crea los pulpitos en las esquinas de la primera casilla
     let nombresPulpitos = JSON.parse(valCookie('nombres'));
     for (let i = 1; i <= jugadores; i++) {
         let dy = (i % 2) ? 0 : 32;
@@ -147,6 +163,7 @@ function iniciarJuego() {
         );
     }
 
+    // Ignorancia
     pulpitos.push(
         new Pulpito(
             '../statics/img/pulpito_sprite_sheet_ignorancia.png',
@@ -157,11 +174,11 @@ function iniciarJuego() {
     );
 
 
-    inicio = new Date();
     cicloJuego();
 
     let estadoJuego = valCookie('estadoJuego');
 
+    // Si ya existe una cookie con estado de juego, hay que cargarlo
     if (estadoJuego && estadoJuego !== '{}') {
         estadoJuego = JSON.parse(estadoJuego);
         document.getElementById('boton-dado').innerText = '¡Nueva pregunta!';
@@ -175,7 +192,11 @@ function iniciarJuego() {
             }, 1000);
         })
         .then(() => {
-            turno(estadoJuego.indice + 1);
+            if (estadoJuego.indice < pulpitos.length - 2) {
+                turno(estadoJuego.indice + 1);
+            } else {
+                turno(0);
+            }
         });
     } else {
         turno(0);
@@ -192,6 +213,7 @@ function conocerFramerate() {
     drawnFrames++;
 }
 
+// Mueve un pulpito un cierto número de casillas
 async function moverCasilla(pulpito, num_casillas) {
     let {x, y} = pulpito;
     let casilla_actual = pulpito.casilla;
@@ -213,6 +235,7 @@ async function moverCasilla(pulpito, num_casillas) {
     fin = checarSiAcabaronTodos();
 }
 
+// Cambia el tamaño del canvas y elementos relacionados, manteniendo sus proporciones
 function redimensionarCanvas() {
     juegoCanvas.width = window.innerWidth;
     juegoCanvas.height = window.innerWidth * (virtualHeight / virtualWidth);
@@ -222,25 +245,29 @@ function redimensionarCanvas() {
         juegoCanvas.width = window.innerHeight * (virtualWidth / virtualHeight);
     }
 
-    factorJuan = juegoCanvas.width / virtualWidth;
+    factor = juegoCanvas.width / virtualWidth;
     juegoCanvas.style.marginLeft = `${(window.innerWidth - juegoCanvas.width) / 2}px`;
     overlay.style.marginLeft = `${(window.innerWidth - juegoCanvas.width) / 2}px`;
     overlay.style.width = `${juegoCanvas.width}px`;
     overlay.style.height = `${juegoCanvas.height}px`;
     let botonDado = document.getElementById('boton-dado');
-    botonDado.style.marginTop = `${400 * factorJuan}px`;
-    botonDado.style.marginLeft = `${(48 * factorJuan) + ((window.innerWidth - juegoCanvas.width) / 2)}px`;
-    botonDado.style.width = `${128 * factorJuan}px`;
+    botonDado.style.marginTop = `${400 * factor}px`;
+    botonDado.style.marginLeft = `${(48 * factor) + ((window.innerWidth - juegoCanvas.width) / 2)}px`;
+    botonDado.style.width = `${128 * factor}px`;
 }
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// Función recursiva que le da su turno a los pulpitos
 async function turno(indice) {
     if (fin) {
         return;
     }
+
+    let imagenPulpito = document.getElementById('imagen-pulpito');
+    imagenPulpito.src = `../statics/img/pulpito_p${indice + 1}.png`;
 
     // Tirar el dado cuando haya nueva pregunta
     if (pregunta.indicePultpitoOriginal === null) {
@@ -278,6 +305,8 @@ async function turno(indice) {
                     preguntasYaHechas: pregunta.preguntasYaHechas,
                 };
             }
+
+            // Se guarda el estado del juego en una cookie
             const estadoJuego = {
                 arregloGanadores,
                 pulpitos,
@@ -286,6 +315,8 @@ async function turno(indice) {
             }
             document.cookie = `estadoJuego=${JSON.stringify(estadoJuego)}`
             await sleep(2000);
+
+            // Siguiente turno
             if (indice + 1 != pulpitos.length - 1) {
                 turno(indice + 1);
             } else {
@@ -295,6 +326,7 @@ async function turno(indice) {
     });
 }
 
+// Petición al archivo PHP que regresa una pregunta y opciones
 async function pedirPregunta() {
   const url = '../dynamics/obtener-preguntas.php';
   body = JSON.stringify({
@@ -314,6 +346,7 @@ async function pedirPregunta() {
 async function preguntar(indice) {
     document.getElementById('boton-dado').innerText = '¡Nueva pregunta!';
 
+    // Cuando no se ha contestado previamente una pregunta, se pide una nueva
     if (pregunta.contestadaCorrectamente === null) {
         infoPregunta = await pedirPregunta();
         console.log(infoPregunta);
@@ -340,12 +373,17 @@ async function preguntar(indice) {
         },
     ];
 
+    // Randomizar orden de las respuestas
+    respuestas = respuestas.sort(() => Math.random() - 0.5);
+
     respuestas.forEach((respuesta, indice) => {
         if (respuesta.correcta === true) {
             pregunta.opcionCorrecta = indice + 1;
         }
     });
 
+
+    // Llenar el texto del div de la pregunta
     pregunta.preguntasYaHechas.push(idPregunta);
     let contenidoPreguntaDiv = document.getElementById('pregunta-texto');
     contenidoPreguntaDiv.innerText = preguntaTexto;
@@ -366,6 +404,8 @@ async function preguntar(indice) {
 
     pregunta.contestable = true;
     overlay.classList.remove('hidden');
+
+    // Se espera a que se conteste la pregunta
     esperarCambioContestable(pregunta.contestable, async () => {
         if (pregunta.contestadaCorrectamente) {
             spanCorrecta.innerText = `¡Respuesta correcta! Avanzarás ${pregunta.valor} casillas.`;
@@ -385,6 +425,7 @@ async function preguntar(indice) {
     });
 }
 
+// Devuelve una promesa que se cumple cuando se presiona un botón
 async function esperarBoton(id) {
     return new Promise(res => {
         let botonDado = document.getElementById(id);
@@ -402,6 +443,7 @@ async function esperarBoton(id) {
     })
 }
 
+// Ejecuta un callback cuando cambia la propiedad contestable de la pregunta
 async function esperarCambioContestable(valorAnterior, callback) {
     if (pregunta.contestable === valorAnterior) {
         return new Promise(resolve => {
@@ -415,9 +457,5 @@ async function esperarCambioContestable(valorAnterior, callback) {
 }
 
 window.addEventListener("resize", redimensionarCanvas);
-
-// document.getElementById('reiniciar-boton').addEventListener('click', () => {
-//     document.cookie = `estadoJuego={}`;
-// });
 
 document.addEventListener("DOMContentLoaded", iniciarJuego);

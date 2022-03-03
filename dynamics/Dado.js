@@ -12,20 +12,21 @@ class Dado {
         this.ultimaAnim = Date.now();
     }
 
-    dibujar(ctx, factorJuan) {
+    dibujar(ctx, factor) {
         ctx.drawImage(
             this.sprite,
             this.tamano * this.spritePos[0],
             this.tamano * this.spritePos[1],
             this.tamano,
             this.tamano,
-            this.x * factorJuan,
-            this.y * factorJuan,
-            factorJuan * this.tamano * 4,
-            factorJuan * this.tamano * 4,
+            this.x * factor,
+            this.y * factor,
+            factor * this.tamano * 4,
+            factor * this.tamano * 4,
         );
     }
 
+    // Cambia la sección del sprite que se dibuja para dar efecto de animación
     animar() {
         if (!this.tirando) {
             return;
@@ -37,9 +38,9 @@ class Dado {
         }
     }
 
-    actualizar(ctx, factor, factorJuan) {
+    actualizar(ctx, factor) {
         this.animar();
-        this.dibujar(ctx, factor, factorJuan);
+        this.dibujar(ctx, factor);
     }
 
     mostrarCara(n) {
