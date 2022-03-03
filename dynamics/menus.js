@@ -66,7 +66,7 @@ if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
         {
             opcionId: 'instrucciones',
             callback: () => {
-                console.log('instrucciones');
+                window.location = './templates/instrucciones.html'
             },
         },
         {
