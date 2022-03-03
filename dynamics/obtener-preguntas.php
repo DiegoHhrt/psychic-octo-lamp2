@@ -7,10 +7,10 @@ $conexion = conectar_base(); //Inicio de la conexión con la base de datos.
 // Recibiendo los datos
 $json = json_decode(file_get_contents('php://input'), true);
 $temaId = $json['temaId'];
-$preguntasYaHechas = $json['preguntasYaHechas']
+$preguntasYaHechas = $json['preguntasYaHechas'];
 $preguntasYaHechas = implode(',',$preguntasYaHechas);
 
-header('Content-type: application/json');
+header('Content-Type: application/json');
 
 // Petición para obtener una pregunta acerca del tema recibido
 $query = "SELECT id_pregunta, pregunta  FROM pregunta WHERE id_tema='$temaId' AND id_pregunta NOT IN($preguntasYaHechas) ORDER BY RAND() LIMIT 1";
@@ -24,9 +24,7 @@ $query_respuestas = "SELECT respuesta FROM preguntahasrespuesta INNER JOIN respu
 
 $resultado_respuestas = mysqli_query($conexion, $query_respuestas);
 
-$arreglo[] = 0; ;
-
-
+$arreglo[] = 0;
 
 while($respuestas=mysqli_fetch_assoc($resultado_respuestas)) {
         array_push($arreglo, $respuestas);
@@ -35,11 +33,9 @@ while($respuestas=mysqli_fetch_assoc($resultado_respuestas)) {
 unset($arreglo[0]);
 $envio[] = array_merge($pregunta, $arreglo);
 
-
+$enviobueno[] = [$envio[0]['id_pregunta'], $envio[0]['pregunta'], $envio[0][0]['respuesta'], $envio[0][1]['respuesta'], $envio[0][2]['respuesta'], $envio[0][3]['respuesta']];
 
 mysqli_close($conexion); //Finalizando la conexión con la base de datos
-
-
 
 
  if ($envio) {

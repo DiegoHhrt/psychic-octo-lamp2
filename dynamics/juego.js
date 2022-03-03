@@ -296,67 +296,109 @@ async function turno(indice) {
     });
 }
 
+async function pedirPregunta() {
+  const url = '../dynamics/obtener-preguntas.php';
+  body = JSON.stringify({
+    numJug: jugadores,
+    temaId: dado.getCara(),
+    preguntasYaHechas: pregunta.preguntasYaHechas
+  });
+  let resp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body
+  });
+  return resp.json();
+}
+
 async function preguntar(indice) {
-    document.getElementById('boton-dado').innerText = '!Nueva pregunta!';
-    let idPregunta = '12';
-    let preguntaTexto = 'Returns a string containing a string representation of all the array elements in the same order, with the separator string between each element.';
-    let respuestas = [
-        {
-            respuesta: 'Esta es la respuesta 1',
-            correcta: true,
-        },
-        {
-            respuesta: 'Esta es la respuesta 2',
-            correcta: false,
-        },
-        {
-            respuesta: 'Esta es la respuesta 3',
-            correcta: false,
-        },
-        {
-            respuesta: 'Esta es la respuesta 4',
-            correcta: false,
-        },
-    ];
+    document.getElementById('boton-dado').innerText = '¡Nueva pregunta!';
+    // let idPregunta = '12';
+    // let preguntaTexto = 'Returns a string containing a string representation of all the array elements in the same order, with the separator string between each element.';
+    // let respuestas = [
+    //     {
+    //         respuesta: 'Esta es la respuesta 1',
+    //         correcta: true,
+    //     },
+    //     {
+    //         respuesta: 'Esta es la respuesta 2',
+    //         correcta: false,
+    //     },
+    //     {
+    //         respuesta: 'Esta es la respuesta 3',
+    //         correcta: false,
+    //     },
+    //     {
+    //         respuesta: 'Esta es la respuesta 4',
+    //         correcta: false,
+    //     },
+    // ];
+    //
 
-    pregunta.preguntasYaHechas.push(idPregunta);
-    let contenidoPreguntaDiv = document.getElementById('pregunta-texto');
-    contenidoPreguntaDiv.innerText = preguntaTexto;
+    pedirPregunta().then((resp) => {
+        let idPregunta = resp[0].id_pregunta;
+        let preguntaTexto = resp[0].pregunta;
+        let respuestas = [
+            {
+                respuesta: resp[0][0],
+                correcta: true
+            },
+            {
+                respuesta: resp[0][0],
+                correcta: false
+            },
+            {
+                respuesta: resp[0][0],
+                correcta: false
+            },
+            {
+                respuesta: resp[0][0],
+                correcta: false
+            },
+        ]
+        pregunta.preguntasYaHechas.push(idPregunta);
+        let contenidoPreguntaDiv = document.getElementById('pregunta-texto');
+        contenidoPreguntaDiv.innerText = preguntaTexto;
 
-    let opciones = document.getElementById('pregunta');
-    respuestas.forEach((respuesta, indice) => {
-        let boton = document.getElementById(`${indice + 1}`);
-        boton.innerText = respuesta.respuesta;
+        let opciones = document.getElementById('pregunta');
+        respuestas.forEach((respuesta, indice) => {
+            let boton = document.getElementById(`${indice + 1}`);
+            boton.innerText = respuesta.respuesta;
+        })
+
+        let spanTurno = document.getElementById('turno-jugador');
+        spanTurno.innerText = `${pulpitos[indice].nombre}`
+        let spanTema = document.getElementById('tema-pregunta');
+        spanTema.innerText = `${dado.getCara()}`
+        let spanValor = document.getElementById('valor-pregunta');
+        spanValor.innerText = `${pregunta.valor}`
+        let spanCorrecta = document.getElementById('es-correcta');
+        spanCorrecta.innerText = '';
+
+        pregunta.contestable = true;
+        overlay.classList.remove('hidden');
+        return esperarCambioContestable(pregunta.contestable, async () => {
+            if (pregunta.contestadaCorrectamente) {
+                spanCorrecta.innerText = `¡Respuesta correcta! Avanzarás ${pregunta.valor} casillas.`;
+                spanCorrecta.className = 'correcta';
+            } else if (pregunta.numeroIntentos !== jugadores) {
+                spanCorrecta.innerText = `Respuesta incorrecta... Veamos si alguien más puede contestar...`;
+                spanCorrecta.className = 'incorrecta';
+            } else {
+                spanCorrecta.innerText = `Respuesta incorrecta... Ahora avanzará la ignorancia...`;
+                spanCorrecta.className = 'incorrecta';
+            }
+            if (pregunta.indicePultpitoOriginal === null) {
+                pregunta.indicePultpitoOriginal = indice;
+            }
+            await sleep(4000);
+            overlay.classList.add('hidden');
+        });
+
     })
 
-    let spanTurno = document.getElementById('turno-jugador');
-    spanTurno.innerText = `${pulpitos[indice].nombre}`
-    let spanTema = document.getElementById('tema-pregunta');
-    spanTema.innerText = `${dado.getCara()}`
-    let spanValor = document.getElementById('valor-pregunta');
-    spanValor.innerText = `${pregunta.valor}`
-    let spanCorrecta = document.getElementById('es-correcta');
-    spanCorrecta.innerText = '';
-
-    pregunta.contestable = true;
-    overlay.classList.remove('hidden');
-    return esperarCambioContestable(pregunta.contestable, async () => {
-        if (pregunta.contestadaCorrectamente) {
-            spanCorrecta.innerText = `¡Respuesta correcta! Avanzarás ${pregunta.valor} casillas.`;
-            spanCorrecta.className = 'correcta';
-        } else if (pregunta.numeroIntentos !== jugadores) {
-            spanCorrecta.innerText = `Respuesta incorrecta... Veamos si alguien más puede contestar...`;
-            spanCorrecta.className = 'incorrecta';
-        } else {
-            spanCorrecta.innerText = `Respuesta incorrecta... Ahora avanzará la ignorancia...`;
-            spanCorrecta.className = 'incorrecta';
-        }
-        if (pregunta.indicePultpitoOriginal === null) {
-            pregunta.indicePultpitoOriginal = indice;
-        }
-        await sleep(4000);
-        overlay.classList.add('hidden');
-    });
 }
 
 async function esperarBoton(id) {
