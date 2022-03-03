@@ -1,5 +1,9 @@
 const tablero = (valCookie('tab') == 21) ? pasos21 : pasos42;
 const jugadores = parseInt(valCookie('numJug'));
+const pregunta = {
+    contestable: false,
+    opcionElegida: null,
+};
 
 let juegoDiv;
 let juegoCanvas;
@@ -16,7 +20,6 @@ let virtualWidth = 672;
 let pulpitos = [];
 let overlay = document.getElementById('overlay');
 let fin = false;
-let constestable = false;
 
 let imagenTablero = new Image();
 if (tablero === pasos21) {
@@ -25,7 +28,6 @@ if (tablero === pasos21) {
     imagenTablero.src = '../statics/img/42.png';
 }
 
-console.log(virtualWidth - imagenTablero.width);
 let dado = new Dado(
     (virtualWidth - imagenTablero.width) / 2 - 32,
     tamanoCasilla * 4.5
@@ -60,11 +62,11 @@ opcionesMenu = [
 
 function checarSiAcabaronTodos() {
     let todosAcabaron = true;
-    pulpitos.forEach(pulpito => {
-        if (pulpito.casilla < tablero.length) {
+    for (let i = 0; i < pulpitos.length - 1; i++) {
+        if (pulpitos[i].casilla < tablero.length) {
             todosAcabaron = false;
         }
-    })
+    }
     return todosAcabaron;
 }
 
@@ -105,11 +107,11 @@ function desactivarSuavizado() {
 }
 
 function elegirOpcion(n) {
-    console.log(n);
-    if (!constestable) {
-        console.log('asdf');
+    if (!pregunta.contestable) {
         return;
     }
+    opcionElegida = n;
+    pregunta.contestable = false;
 }
 
 function iniciarJuego() {
@@ -123,6 +125,7 @@ function iniciarJuego() {
         console.log(posicionMouse(evento));
     });
 
+    let nombresPulpitos = JSON.parse(valCookie('nombres'));
     for (let i = 1; i <= jugadores; i++) {
         let dy = (i % 2) ? 0 : 32;
         let dx = (i > 1 && i < 4) ? 0 : 32;
@@ -130,7 +133,8 @@ function iniciarJuego() {
             new Pulpito(
                 `../statics/img/pulpito_sprite_sheet_p${i}.png`,
                 virtualWidth - 24 - dx,
-                virtualHeight - 24 - dy
+                virtualHeight - 24 - dy,
+                nombresPulpitos[i - 1].nombre
             )
         );
     }
@@ -139,7 +143,8 @@ function iniciarJuego() {
         new Pulpito(
             '../statics/img/pulpito_sprite_sheet_ignorancia.png',
             virtualWidth - 24 - 16,
-            virtualHeight - 24 - 16
+            virtualHeight - 24 - 16,
+            'Ignorancia'
         )
     );
 
@@ -211,24 +216,55 @@ function redimensionarCanvas() {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
+;
 async function turno(indice) {
     if (fin) {
         return;
     }
-    if (indice != pulpitos.length - 1) {
-        await moverCasilla(pulpitos[indice], 1);
-        await moverCasilla(pulpitos[pulpitos.length - 1], 1);
-        await sleep(0);
-        turno(indice + 1);
+
+    preguntar(indice);
+    esperarCambioContestable(pregunta.contestable, async () => {
+        await sleep(2000);
+        if (indice != pulpitos.length - 1) {
+            console.log(indice);
+            await moverCasilla(pulpitos[indice], 22);
+            await moverCasilla(pulpitos[pulpitos.length - 1], 1);
+            await sleep(2000);
+            if (indice + 1 != pulpitos.length - 1) {
+                turno(indice + 1);
+            } else {
+                turno(0);
+            }
+        }
+    });
+}
+
+async function preguntar(indice) {
+    let span = document.getElementById('turno-jugador');
+    span.innerText = `${pulpitos[indice].nombre}`
+
+    pregunta.contestable = true;
+    overlay.classList.remove('hidden');
+    return esperarCambioContestable(pregunta.contestable, async () => {
+        console.log('La opcion es', opcionElegida);
+        await sleep(2000);
+        overlay.classList.add('hidden');
+    });
+}
+
+async function esperarCambioContestable(valorAnterior, callback) {
+    if (pregunta.contestable === valorAnterior) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                esperarCambioContestable(valorAnterior, callback);
+            }, 100);
+        });
     } else {
-        turno(0);
+        callback();
     }
 }
 
 window.addEventListener("resize", redimensionarCanvas);
 
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(iniciarJuego, 200);
-});
+document.addEventListener("DOMContentLoaded", iniciarJuego);
 
