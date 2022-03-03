@@ -7,7 +7,7 @@ let ctx;
 let drawnFrames = 0;
 let inicio;
 let frame_previo = new Date();
-let framerate = 0;
+let framerate = 60;
 let fuente = new FontFace('fuente', 'url(../statics/fonts/I-pixel-u.ttf)');
 let tamanoCasilla = 64;
 let factorJuan = 0;
@@ -24,8 +24,9 @@ let pregunta = {
     indicePultpitoOriginal: null,
     numeroIntentos: 0,
     valor: numeroAleatorio(2) + 1,
-    preguntasYaHechas: [],
+    preguntasYaHechas: [-1],
 };
+let infoPregunta = {};
 
 let imagenTablero = new Image();
 if (tablero === pasos21) {
@@ -60,12 +61,6 @@ opcionesMenu = [
     },
     {
         opcionId: '4',
-        callback: () => {
-           elegirOpcion(4);
-        }
-    },
-    {
-        opcionId: '5',
         callback: () => {
            elegirOpcion(4);
         }
@@ -109,6 +104,7 @@ function cicloJuego() {
     });
 
     conocerFramerate();
+    console.log(framerate);
     requestAnimationFrame(cicloJuego);
 }
 
@@ -123,7 +119,7 @@ function elegirOpcion(n) {
         return;
     }
     pregunta.opcionElegida = n;
-    pregunta.contestadaCorrectamente = !!(n % 2);
+    pregunta.contestadaCorrectamente = (pregunta.opcionCorrecta == n);
     pregunta.numeroIntentos++;
     let divOpcion = document.getElementById(`${n}`);
 
@@ -166,19 +162,20 @@ function iniciarJuego() {
 
     let estadoJuego = valCookie('estadoJuego');
 
-    if (estadoJuego) {
+    if (estadoJuego && estadoJuego !== '{}') {
         estadoJuego = JSON.parse(estadoJuego);
         document.getElementById('boton-dado').innerText = '¡Nueva pregunta!';
         new Promise(resolve => {
             setTimeout(() => {
-                pulpitos.forEach((pulpito, indice) => {
-                    moverCasilla(pulpito, estadoJuego.pulpitos[indice].casilla);
+                pulpitos.forEach(async (pulpito, indice) => {
+                    pulpito.nombre = estadoJuego.pulpitos[indice].nombre;
+                    await moverCasilla(pulpito, estadoJuego.pulpitos[indice].casilla);
                 });
                 resolve();
             }, 1000);
         })
         .then(() => {
-            turno(0);
+            turno(estadoJuego.indice + 1);
         });
     } else {
         turno(0);
@@ -202,7 +199,7 @@ async function moverCasilla(pulpito, num_casillas) {
     while (casilla_actual < pulpito.casilla) {
         pulpito.direccion = tablero[casilla_actual];
         while (pulpito.distancia(x, y) < tamanoCasilla && pulpito.direccion != undefined) {
-            await sleep(100 / (framerate * 2));
+            await sleep(5);
         }
         x = pulpito.x;
         y = pulpito.y;
@@ -251,11 +248,10 @@ async function turno(indice) {
         dado.tirando = true;
         await sleep(3000);
         dado.tirando = false;
-        console.log(dado.getCara());
         await sleep(2000);
     }
 
-    preguntar(indice);
+    await preguntar(indice);
     esperarCambioContestable(pregunta.contestable, async () => {
         await sleep(4000);
         if (indice != pulpitos.length - 1) {
@@ -268,8 +264,10 @@ async function turno(indice) {
                     indicePultpitoOriginal: null,
                     numeroIntentos: 0,
                     valor: numeroAleatorio(2) + 1,
+                    preguntasYaHechas: pregunta.preguntasYaHechas,
                 };
             } else if (pregunta.numeroIntentos === jugadores) {
+                await moverCasilla(pulpitos[pulpitos.length - 1], pregunta.valor);
                 pregunta = {
                     contestable: false,
                     opcionElegida: null,
@@ -277,13 +275,14 @@ async function turno(indice) {
                     indicePultpitoOriginal: null,
                     numeroIntentos: 0,
                     valor: numeroAleatorio(2) + 1,
+                    preguntasYaHechas: pregunta.preguntasYaHechas,
                 };
-                await moverCasilla(pulpitos[pulpitos.length - 1], pregunta.valor);
             }
             const estadoJuego = {
                 arregloGanadores,
                 pulpitos,
-                pregunta
+                pregunta,
+                indice
             }
             document.cookie = `estadoJuego=${JSON.stringify(estadoJuego)}`
             await sleep(2000);
@@ -299,7 +298,6 @@ async function turno(indice) {
 async function pedirPregunta() {
   const url = '../dynamics/obtener-preguntas.php';
   body = JSON.stringify({
-    numJug: jugadores,
     temaId: dado.getCara(),
     preguntasYaHechas: pregunta.preguntasYaHechas
   });
@@ -315,90 +313,76 @@ async function pedirPregunta() {
 
 async function preguntar(indice) {
     document.getElementById('boton-dado').innerText = '¡Nueva pregunta!';
-    // let idPregunta = '12';
-    // let preguntaTexto = 'Returns a string containing a string representation of all the array elements in the same order, with the separator string between each element.';
-    // let respuestas = [
-    //     {
-    //         respuesta: 'Esta es la respuesta 1',
-    //         correcta: true,
-    //     },
-    //     {
-    //         respuesta: 'Esta es la respuesta 2',
-    //         correcta: false,
-    //     },
-    //     {
-    //         respuesta: 'Esta es la respuesta 3',
-    //         correcta: false,
-    //     },
-    //     {
-    //         respuesta: 'Esta es la respuesta 4',
-    //         correcta: false,
-    //     },
-    // ];
-    //
 
-    pedirPregunta().then((resp) => {
-        let idPregunta = resp[0].id_pregunta;
-        let preguntaTexto = resp[0].pregunta;
-        let respuestas = [
-            {
-                respuesta: resp[0][0],
-                correcta: true
-            },
-            {
-                respuesta: resp[0][0],
-                correcta: false
-            },
-            {
-                respuesta: resp[0][0],
-                correcta: false
-            },
-            {
-                respuesta: resp[0][0],
-                correcta: false
-            },
-        ]
-        pregunta.preguntasYaHechas.push(idPregunta);
-        let contenidoPreguntaDiv = document.getElementById('pregunta-texto');
-        contenidoPreguntaDiv.innerText = preguntaTexto;
+    if (pregunta.contestadaCorrectamente === null) {
+        infoPregunta = await pedirPregunta();
+        console.log(infoPregunta);
+    }
 
-        let opciones = document.getElementById('pregunta');
-        respuestas.forEach((respuesta, indice) => {
-            let boton = document.getElementById(`${indice + 1}`);
-            boton.innerText = respuesta.respuesta;
-        })
+    let idPregunta = infoPregunta[0].id_pregunta;
+    let preguntaTexto = infoPregunta[0].pregunta;
+    let respuestas = [
+        {
+            respuesta: infoPregunta[0][0].respuesta,
+            correcta: true,
+        },
+        {
+            respuesta: infoPregunta[0][1].respuesta,
+            correcta: false,
+        },
+        {
+            respuesta: infoPregunta[0][2].respuesta,
+            correcta: false,
+        },
+        {
+            respuesta: infoPregunta[0][3].respuesta,
+            correcta: false,
+        },
+    ];
 
-        let spanTurno = document.getElementById('turno-jugador');
-        spanTurno.innerText = `${pulpitos[indice].nombre}`
-        let spanTema = document.getElementById('tema-pregunta');
-        spanTema.innerText = `${dado.getCara()}`
-        let spanValor = document.getElementById('valor-pregunta');
-        spanValor.innerText = `${pregunta.valor}`
-        let spanCorrecta = document.getElementById('es-correcta');
-        spanCorrecta.innerText = '';
+    respuestas.forEach((respuesta, indice) => {
+        if (respuesta.correcta === true) {
+            pregunta.opcionCorrecta = indice + 1;
+        }
+    });
 
-        pregunta.contestable = true;
-        overlay.classList.remove('hidden');
-        return esperarCambioContestable(pregunta.contestable, async () => {
-            if (pregunta.contestadaCorrectamente) {
-                spanCorrecta.innerText = `¡Respuesta correcta! Avanzarás ${pregunta.valor} casillas.`;
-                spanCorrecta.className = 'correcta';
-            } else if (pregunta.numeroIntentos !== jugadores) {
-                spanCorrecta.innerText = `Respuesta incorrecta... Veamos si alguien más puede contestar...`;
-                spanCorrecta.className = 'incorrecta';
-            } else {
-                spanCorrecta.innerText = `Respuesta incorrecta... Ahora avanzará la ignorancia...`;
-                spanCorrecta.className = 'incorrecta';
-            }
-            if (pregunta.indicePultpitoOriginal === null) {
-                pregunta.indicePultpitoOriginal = indice;
-            }
-            await sleep(4000);
-            overlay.classList.add('hidden');
-        });
+    pregunta.preguntasYaHechas.push(idPregunta);
+    let contenidoPreguntaDiv = document.getElementById('pregunta-texto');
+    contenidoPreguntaDiv.innerText = preguntaTexto;
 
+    respuestas.forEach((respuesta, indice) => {
+        let boton = document.getElementById(`${indice + 1}`);
+        boton.innerText = respuesta.respuesta;
     })
 
+    let spanTurno = document.getElementById('turno-jugador');
+    spanTurno.innerText = `${pulpitos[indice].nombre}`
+    let spanTema = document.getElementById('tema-pregunta');
+    spanTema.innerText = `${dado.getCara()}`
+    let spanValor = document.getElementById('valor-pregunta');
+    spanValor.innerText = `${pregunta.valor}`
+    let spanCorrecta = document.getElementById('es-correcta');
+    spanCorrecta.innerText = '';
+
+    pregunta.contestable = true;
+    overlay.classList.remove('hidden');
+    esperarCambioContestable(pregunta.contestable, async () => {
+        if (pregunta.contestadaCorrectamente) {
+            spanCorrecta.innerText = `¡Respuesta correcta! Avanzarás ${pregunta.valor} casillas.`;
+            spanCorrecta.className = 'correcta';
+        } else if (pregunta.numeroIntentos !== jugadores) {
+            spanCorrecta.innerText = `Respuesta incorrecta... Veamos si alguien más puede contestar...`;
+            spanCorrecta.className = 'incorrecta';
+        } else {
+            spanCorrecta.innerText = `Respuesta incorrecta... Ahora avanzará la ignorancia...`;
+            spanCorrecta.className = 'incorrecta';
+        }
+        if (pregunta.indicePultpitoOriginal === null) {
+            pregunta.indicePultpitoOriginal = indice;
+        }
+        await sleep(4000);
+        overlay.classList.add('hidden');
+    });
 }
 
 async function esperarBoton(id) {

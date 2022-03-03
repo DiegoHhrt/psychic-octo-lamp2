@@ -110,6 +110,7 @@ if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
             opcionId: "21",
             callback: () => {
                 document.cookie = "tab = 21";
+                document.cookie = `estadoJuego={}`;
                 window.location = './juego.html';
             }
         },
@@ -117,6 +118,7 @@ if (pag === 'index.html' || pag === 'psychic-octo-lamp') {
             opcionId: "42",
             callback: () => {
                 document.cookie = "tab = 42";
+                document.cookie = `estadoJuego={}`;
                 window.location = './juego.html';
             }
         },
