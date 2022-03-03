@@ -14,7 +14,9 @@ let factorJuan = 0;
 let virtualHeight = 480;
 let virtualWidth = 672;
 let pulpitos = [];
+let overlay = document.getElementById('overlay');
 let fin = false;
+let constestable = false;
 
 let imagenTablero = new Image();
 if (tablero === pasos21) {
@@ -28,6 +30,33 @@ let dado = new Dado(
     (virtualWidth - imagenTablero.width) / 2 - 32,
     tamanoCasilla * 4.5
 );
+
+opcionesMenu = [
+    {
+        opcionId: '1',
+        callback: () => {
+           elegirOpcion(1);
+        }
+    },
+    {
+        opcionId: '2',
+        callback: () => {
+           elegirOpcion(2);
+        }
+    },
+    {
+        opcionId: '3',
+        callback: () => {
+           elegirOpcion(3);
+        }
+    },
+    {
+        opcionId: '4',
+        callback: () => {
+           elegirOpcion(4);
+        }
+    },
+];
 
 function checarSiAcabaronTodos() {
     let todosAcabaron = true;
@@ -73,6 +102,14 @@ function desactivarSuavizado() {
     ctx.webkitImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
     ctx.imageSmoothingEnabled = false;
+}
+
+function elegirOpcion(n) {
+    console.log(n);
+    if (!constestable) {
+        console.log('asdf');
+        return;
+    }
 }
 
 function iniciarJuego() {
@@ -164,8 +201,11 @@ function redimensionarCanvas() {
         juegoCanvas.width = window.innerHeight * (virtualWidth / virtualHeight);
     }
 
-    // document.body.style.paddingLeft = (window.innerHeight - juegoCanvas.width) / 2;
     factorJuan = juegoCanvas.width / virtualWidth;
+    juegoCanvas.style.marginLeft = `${(window.innerWidth - juegoCanvas.width) / 2}px`;
+    overlay.style.marginLeft = `${(window.innerWidth - juegoCanvas.width) / 2}px`;
+    overlay.style.width = `${juegoCanvas.width}px`;
+    overlay.style.height = `${juegoCanvas.height}px`;
 }
 
 function sleep(ms) {
@@ -177,15 +217,10 @@ async function turno(indice) {
         return;
     }
     if (indice != pulpitos.length - 1) {
-        moverCasilla(pulpitos[indice], numeroAleatorio(2, 3))
-            .then(() => {
-                moverCasilla(pulpitos[pulpitos.length - 1], 1)
-                    .then(() => {
-                        sleep(0).then(() => {
-                            turno(indice + 1);
-                        });
-                    })
-            });
+        await moverCasilla(pulpitos[indice], 1);
+        await moverCasilla(pulpitos[pulpitos.length - 1], 1);
+        await sleep(0);
+        turno(indice + 1);
     } else {
         turno(0);
     }
@@ -194,6 +229,6 @@ async function turno(indice) {
 window.addEventListener("resize", redimensionarCanvas);
 
 document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(iniciarJuego, 100);
+    setTimeout(iniciarJuego, 200);
 });
 
