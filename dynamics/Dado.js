@@ -70,4 +70,20 @@ class Dado {
                 break;
         }
     }
+
+    getCara() {
+        if (this.spritePos[0] === 0 && this.spritePos[1] === 0) {
+            return 6;
+        } else if (this.spritePos[0] === 1 && this.spritePos[1] === 0) {
+            return 5;
+        } else if (this.spritePos[0] === 2 && this.spritePos[1] === 0) {
+            return 4;
+        } else if (this.spritePos[0] === 0 && this.spritePos[1] === 1) {
+            return 3;
+        } else if (this.spritePos[0] === 1 && this.spritePos[1] === 1) {
+            return 2;
+        } else if (this.spritePos[0] === 2 && this.spritePos[1] === 1) {
+            return 1;
+        }
+    }
 }

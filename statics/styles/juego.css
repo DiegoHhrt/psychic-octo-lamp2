@@ -66,3 +66,21 @@ html, body {
 .opcion:focus {
     border: 2px solid #000000;
 }
+
+#boton-dado-div {
+    z-index: 20 !important;
+    position: absolute;
+}
+
+#boton-dado {
+    font-size: 2vh;
+    display: none;
+}
+
+.correcta {
+    color: green;
+}
+
+.incorrecta {
+    color: red;
+}

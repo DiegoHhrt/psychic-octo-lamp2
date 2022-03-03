@@ -15,25 +15,33 @@
         <div id="overlay" class="box hidden">
             <div id="container-pregunta" class="container">
                 <div class="row d-flex justify-content-center">
-                    <h3>Hola</h3>
-                    <p>Turno del jugador <span>yeahb</span>
+                    <!-- <h3>Hola</h3> -->
+                    <!-- <p>Turno del jugador <span>yeahb</span> -->
                 </div>
                 <div id="pregunta" class="row">
                     <div class="col">
                         <div class="row mt-3">
                             <div class="col-6">
-                                Turno de <strong id="turno-jugador">krunker</strong>
+                                Turno de <strong id="turno-jugador"></strong>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="row mt-3">
                             <div class="col-6">
-                                Tema 1. Matemáticas
+                                Valor de pregunta: <strong id="valor-pregunta"></strong>
                             </div>
                         </div>
                         <hr>
                         <div class="row mt-3">
                             <div class="col">
+                                <span id="es-correcta"></span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                Tema <strong id="tema-pregunta"></strong>. Matemáticas
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-3">
+                            <div id="pregunta-texto" class="col">
                                 Esta es la pregunta más chistosa de todos los tiempos,
                                 es una pregunta muy buena y me gusta, ¿estás de acuerdo?
                             </div>
@@ -62,6 +70,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="boton-dado-div">
+            <button id="boton-dado">¡Iniciar juego!</button>
         </div>
     </div>
     <script src="../dynamics/menus.js"></script>
