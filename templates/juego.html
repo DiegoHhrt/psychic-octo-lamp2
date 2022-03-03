@@ -12,8 +12,53 @@
 <body>
     <div id="juego">
         <canvas id="juego-canvas"></canvas>
-        <div id="overlay"></div>
+        <div id="overlay" class="box">
+            <div id="container-pregunta" class="container">
+                <div class="row d-flex justify-content-center">
+                    <h3>Hola</h3>
+                    <p>Turno del jugador <span>yeahb</span>
+                </div>
+                <div id="pregunta" class="row">
+                    <div class="col">
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                Tema 1. Matemáticas
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-3">
+                            <div class="col">
+                                Esta es la pregunta más chistosa de todos los tiempos,
+                                es una pregunta muy buena y me gusta, ¿estás de acuerdo?
+                            </div>
+                        </div>
+                        <hr>
+                        <div id="opciones" class="row">
+                            <div class="row d-flex justify-content-center mt-3">
+                                <button id="1" class="opcion">
+                                    Opcion 1
+                                </button>
+                            </div>
+                            <div class="row d-flex justify-content-center mt-3">
+                                <button id="2" class="opcion">
+                                    Opcion 2
+                            </div>
+                            <div class="row d-flex justify-content-center mt-3">
+                                <button id="3" class="opcion">
+                                    Opcion 3
+                            </div>
+                            <div class="row d-flex justify-content-center mt-3">
+                                <button id="4" class="opcion">
+                                    Opcion 4
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="../dynamics/menus.js"></script>
     <script src="../dynamics/util.js"></script>
     <script src="../dynamics/Pulpito.js"></script>
     <script src="../dynamics/Dado.js"></script>
